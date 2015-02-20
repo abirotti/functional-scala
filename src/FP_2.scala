@@ -25,20 +25,4 @@ object FP_2 {
 
   def compose[A,B,C](f: B => C, g: A => B): A => C =
     (a:A) => f(g(a))
-
-  def main (args: Array[String]) {
-    assert ( isSorted[Int](Array(1,2,1,3,4)) ((a, b)=> a<=b ) == false )
-    assert ( isSorted[Int](Array(1,2,3,3,4)) ((a, b)=> a<=b ) == true )
-    assert ( isSorted[Int](Array(1,2,3,3,4)) ((a, b)=> a<b ) == false )
-
-    val curried = curry((a:Int, b:Int) => a+b)
-
-    assert( curried(1)(2) == uncurry(curried) (1,2) )
-
-    def double(a:Int) = a * 2
-    def increment(b:Int) = b + 1
-
-    assert (compose(increment, double) (2) == 5)
-    assert (compose(double, increment) (2) == 6)
-  }
 }

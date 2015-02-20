@@ -5,6 +5,7 @@ case object Nil extends List[Nothing]
 case class Cons[+A](head:A, tail:List[A]) extends List[A]
 
 object List {
+
   def sum(ints: List[Int]): Int = ints match {
     case Nil => 0
     case Cons(x, xs) => x + sum(xs)
@@ -46,8 +47,7 @@ object List {
     case _ => Nil
   }
 
-  def foldRight[A,B](as: List[A], z: B)(f: (A,B) => B): B =
-    as match {
+  def foldRight[A,B](as: List[A], z: B)(f: (A,B) => B): B = as match {
       case Nil => z
       case Cons(x, xs) => f(x, foldRight(xs, z)(f) )
     }
@@ -69,29 +69,24 @@ object List {
   def product3(ns: List[Int]) = foldLeft(ns, 1)(_*_)
   def length3[A](as: List[A]): Int = foldLeft(as, 0)((z, a)=> 1 + z)
 
-}
-
-object FP_3 {
-
-  def main(args: Array[String]): Unit = {
-
-    val l1 = List(1,2,3,4,5,6,7,8)
-    val l2 = List(1,2,3,4)
-
-
-//    println(List.tail(l1))
-//    println(List.setHead(l1, 10))
-//    println(List.drop(l1, 3))
-//    println(List.dropWhile(l1) (x => x <= 3)) // if it is curried, we don't need to specify the type for x: it is gonna be Int
-//    println(List.init(l1))
-//    println(List.foldRight(List(1,2,3), Nil:List[Int])(Cons(_,_)))
-//    println(List.length(Nil))
-//    println(List.length3(Nil))
-//    println(List.length(l1))
-//    println(List.length3(l1))
-//
-//    println(List.sum3(l1))
-//    println(List.sum3(l2))
-//    println(List.product3(l1))
+  def reverse[A](as: List[A]): List[A] = {
+    val newList: List[A] = Nil // how do I get rid of this here type?
+    foldLeft(as, newList)((z, b) => Cons(b, z))
   }
-}
+
+  def reverse2[A](as: List[A]): List[A] = {
+    foldLeft2(as, Nil:List[A])((z, b) => Cons(b, z))
+  }
+
+  def foldLeft2[A,B](as: List[A], z: B)(f: (B, A) => B): B =
+    foldRight(reverse(as), z)((b,a) => f (a, b)) // I doubt this is what is being asked
+
+  def foldRight2[A,B](as: List[A], z: B)(f: (A,B) => B): B =
+    foldLeft(reverse(as), z) ((a, b) => f(b, a))
+
+  def append[A](as: List[A], a:A): List[A] =
+    foldLeft(as, Cons(a, Nil))((z, b) => Cons(b,z))
+
+  def flatten[A](as:List[List[A]]): List[A] = throw new IllegalArgumentException
+  }
+
