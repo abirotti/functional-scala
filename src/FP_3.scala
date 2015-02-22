@@ -108,6 +108,14 @@ object List {
   def filter[A](as: List[A])(f: A => Boolean): List[A] =
     foldRight2(as, Nil:List[A])((z,b) => if (f(z)) Cons(z, b) else b)
 
-  def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = ???
+  def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
+    foldRight2(as, Nil:List[B])((z,b) => appendListToList(f(z), b))
+
+  def filterByFlatMap[A](as: List[A])(f: A => Boolean): List[A] =
+    flatMap(as)(x => if (f(x)) List(x) else Nil)
+
+  def zipAdd[A](ls1: List[A], ls2: List[A]) = ???
+
+
 }
 
