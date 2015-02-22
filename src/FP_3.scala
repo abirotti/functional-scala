@@ -17,6 +17,12 @@ object List {
     case Cons(x, xs) => x * product(xs)
   }
 
+  def appendListToList[A](a1: List[A], a2: List[A]): List[A] =
+  a1 match {
+    case Nil => a2
+    case Cons(h,t) => Cons(h, appendListToList(t, a2))
+  }
+
   def apply[A](as: A*): List[A] =
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
@@ -79,7 +85,7 @@ object List {
   }
 
   def foldLeft2[A,B](as: List[A], z: B)(f: (B, A) => B): B =
-    foldRight(reverse(as), z)((b,a) => f (a, b)) // I doubt this is what is being asked
+    foldRight(reverse(as), z)((b,a) => f (a, b)) // is there a better way to do this?
 
   def foldRight2[A,B](as: List[A], z: B)(f: (A,B) => B): B =
     foldLeft(reverse(as), z) ((a, b) => f(b, a))
@@ -87,6 +93,21 @@ object List {
   def append[A](as: List[A], a:A): List[A] =
     foldLeft(as, Cons(a, Nil))((z, b) => Cons(b,z))
 
-  def flatten[A](as:List[List[A]]): List[A] = throw new IllegalArgumentException
-  }
+  def concatenate[A](as:List[List[A]]): List[A] =
+    foldRight(as, Nil:List[A])(appendListToList)
+
+  def incList(l: List[Int]): List[Int] =
+    foldRight2(l, Nil:List[Int])((z,b) => Cons(z+1,b))
+
+  def doublesToString(l: List[Double]): List[String] =
+    foldRight2(l, Nil: List[String])((z,b) => Cons(z.toString, b))
+
+  def map[A,B](as: List[A])(f: A => B): List[B] =
+    foldRight2(as, Nil:List[B])((z,b) => Cons(f(z), b))
+
+  def filter[A](as: List[A])(f: A => Boolean): List[A] =
+    foldRight2(as, Nil:List[A])((z,b) => if (f(z)) Cons(z, b) else b)
+
+  def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = ???
+}
 
