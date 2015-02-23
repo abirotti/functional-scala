@@ -71,6 +71,12 @@ object List {
     loop(as, z)
   }
 
+  @tailrec
+  def foldLeft_lmao[A,B](as: List[A], z: B)(f: (B, A) => B): B = as match {
+    case Cons(x, xs) => foldLeft_lmao(xs, f(z, x))(f)
+    case Nil => z
+  }
+
   def sum3(ns: List[Int]) = foldLeft(ns, 0)(_+_)
   def product3(ns: List[Int]) = foldLeft(ns, 1)(_*_)
   def length3[A](as: List[A]): Int = foldLeft(as, 0)((z, a)=> 1 + z)
@@ -114,8 +120,24 @@ object List {
   def filterByFlatMap[A](as: List[A])(f: A => Boolean): List[A] =
     flatMap(as)(x => if (f(x)) List(x) else Nil)
 
-  def zipAdd[A](ls1: List[A], ls2: List[A]) = ???
+  def zipAdd(ls1: List[Int], ls2: List[Int]) = {
+    @tailrec def loop(list1: List[Int], list2: List[Int], zipped: List[Int]): List[Int] =
+      (list1, list2) match {
+        case (Cons(x, xs), Cons(y, ys)) => loop(xs, ys, Cons(x + y, zipped))
+        case _ => zipped
+    }
+    reverse(loop(ls1, ls2, Nil))
+  }
 
+  def withZip[A](l1: List[A], l2: List[A], f: (A,A)=>A) = {
+    @tailrec def loop(ls1: List[A], ls2: List[A], zip: List[A]): List[A] = (ls1, ls2) match {
+      case (Cons(x,xs), Cons(y,ys)) => loop(xs, ys, Cons(f(x, y), zip))
+      case _ => zip
+    }
+    reverse(loop(l1, l2, Nil))
+  }
+
+  def hasSubsequence[A](sup: scala.List[A], sub: scala.List[A]): Boolean = ???
 
 }
 
