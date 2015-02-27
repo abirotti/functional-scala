@@ -15,17 +15,29 @@ object Tree {
   }
 
   def depth[A](tree: Tree[A]): Int = tree match {
-    case Leaf(x) => 1
-    case Branch(l, r) => depth(l) + depth(r)
+    case Leaf(x) => 0
+    case Branch(l, r) => 1 + depth(l) max depth(r)
   }
 
-  def map[A,B](tree: Tree[A])(f: A => B): Tree[B] = tree match {
+  def map_t[A,B](tree: Tree[A])(f: A => B): Tree[B] = tree match {
     case Leaf(x) => Leaf(f(x))
-    case Branch(l, r) => Branch(map(l)(f), map(r)(f))
+    case Branch(l, r) => Branch(map_t(l)(f), map_t(r)(f))
   }
 
-  def fold[A,B](tree: Tree[A])(id: A=>B)(f: (A, A)=>B): B = tree match{
+  def fold[A,B](tree: Tree[A])(id: A=>B)(f: (B, B)=>B): B = tree match{
     case Leaf(x) => id(x)
-    case Branch(l, r) =>
+    case Branch(l, r) => f(fold(l)(id)(f), fold(r)(id)(f))
   }
+
+  def sizeViaFold[A](tree: Tree[A]): Int =
+    fold(tree)(x=>1)((x, y) => x + y)
+
+  def maximumViaFold(tree: Tree[Int]): Int =
+    fold(tree)(x=>x)((x, y) => x max y)
+
+  def depthViaFold[A](tree: Tree[A]): Int =
+    fold(tree)(x=>0)((x, y) => 1 + (x max y))
+
+  def map_tViaFold[A,B](tree: Tree[A])(f: A => B): Tree[B] =
+    fold(tree)(x=>Leaf(f(x)): Tree[B])(Branch(_,_))
 }
