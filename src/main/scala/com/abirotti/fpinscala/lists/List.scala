@@ -1,4 +1,7 @@
+package com.abirotti.fpinscala.lists
+
 import scala.annotation.tailrec
+import scala.{List => _}
 
 sealed trait List[+A]
 case object Nil extends List[Nothing]
@@ -109,13 +112,13 @@ object List {
     foldRight2(l, Nil: List[String])((z,b) => Cons(z.toString, b))
 
   def map[A,B](as: List[A])(f: A => B): List[B] =
-    foldRight2(as, Nil:List[B])((z,b) => Cons(f(z), b))
+    foldRight2(as, Nil:List[B])((a,b) => Cons(f(a), b))
 
   def filter[A](as: List[A])(f: A => Boolean): List[A] =
-    foldRight2(as, Nil:List[A])((z,b) => if (f(z)) Cons(z, b) else b)
+    foldRight2(as, Nil:List[A])((a,b) => if (f(a)) Cons(a, b) else b)
 
   def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
-    foldRight2(as, Nil:List[B])((z,b) => appendListToList(f(z), b))
+    foldRight2(as, Nil:List[B])((a,b) => appendListToList(f(a), b))
 
   def filterByFlatMap[A](as: List[A])(f: A => Boolean): List[A] =
     flatMap(as)(x => if (f(x)) List(x) else Nil)
@@ -137,7 +140,11 @@ object List {
     reverse(loop(l1, l2, Nil))
   }
 
-  def hasSubsequence[A](sup: scala.List[A], sub: scala.List[A]): Boolean = ???
+  def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = ???
 
+  def startsWith[A](l1: List[A], l2: List[A]): Boolean = (l1, l2) match {
+    case (_, Nil) => true
+    case (Cons(h1, t1), Cons(h2, t2)) if h1 == h2 => startsWith(t1, t2)
+    case _ => false
+  }
 }
-

@@ -1,6 +1,8 @@
+package com.abirotti.fpinscala.either
+
 class Either {
 
-  import scala.{Option => _, Either => _, Left => _, Right => _, List => _} // hide std library `Option` and `Either`, since we are writing our own in this chapter
+  import scala.{Either => _, Left => _, List => _, Option => _, Right => _} // hide std library `Option` and `com.abirotti.fpinscala.either.Either`, since we are writing our own in this chapter
 
   sealed trait Either[+E,+A] {
 
@@ -16,14 +18,14 @@ class Either {
 
     def map[B](f: A => B): Either[E, B] =
       this match {
-        case Left(e) => Left(e)
         case Right(a) => Right(f(a))
+        case Left(e) => Left(e)
       }
 
     def flatMap[EE >: E, B](f: A => Either[EE, B]): Either[EE, B] =
       this match {
-        case Left(e) => Left(e)
         case Right(a) => f(a)
+        case Left(e) => Left(e)
       }
 
     def orElse[EE >: E, B >: A](b: => Either[EE, B]): Either[EE, B] =
@@ -37,8 +39,8 @@ class Either {
 
   }
 
-  case class Left[+E](get: E) extends Either[E,Nothing]
   case class Right[+A](get: A) extends Either[Nothing,A]
+  case class Left[+E](get: E) extends Either[E,Nothing]
 
   object Either {
     def sequence[E, A](es: List[Either[E, A]]) = traverse(es)(x=>x)
@@ -46,7 +48,7 @@ class Either {
     def traverse[E,A,B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
       as match {
         case Nil => Right(Nil)
-        case Cons(h, t) => (f(h) map2 traverse(t)(f))((a,b)=>Cons(a,b))
+        case (h :: t) => (f(h) map2 traverse(t)(f))((a,b)=>(a :: b))
       }
   }
 }

@@ -1,3 +1,5 @@
+package com.abirotti.fpinscala
+
 import scala.annotation.tailrec
 
 object FP_2 {
