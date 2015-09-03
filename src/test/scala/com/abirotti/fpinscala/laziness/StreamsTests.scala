@@ -70,4 +70,22 @@ class StreamsTests extends FunSuite with ShouldMatchers{
   test("headOption of an empty stream is nothing") {
     emptyStream.headOption should be(None)
   }
+
+  test("map!") {
+    nineNumbers.map(_ * 2).toList should be(List(2,4,6,8,10,12,14,16,18))
+  }
+
+  test("filter!") {
+    nineNumbers.filter(_ %2 == 0).toList should be(List(2,4,6,8))
+  }
+
+  test("append!") {
+    emptyStream.append(Stream(1)).toList should be(List(1))
+    nineNumbers.append(Stream(1)).toList should be(List(1,2,3,4,5,6,7,8,9,1))
+  }
+
+  test("flatMap!") {
+    emptyStream.flatMap(x => Stream(x)).toList should be(Nil)
+    nineNumbers.flatMap(x => Stream(x+1)).toList should be(List(2,3,4,5,6,7,8,9,10))
+  }
 }
