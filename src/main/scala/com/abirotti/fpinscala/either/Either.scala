@@ -48,7 +48,7 @@ class Either {
     def traverse[E,A,B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
       as match {
         case Nil => Right(Nil)
-        case (h :: t) => (f(h) map2 traverse(t)(f))((a,b)=>(a :: b))
+        case (h :: t) => (f(h) map2 traverse(t)(f))((a,b)=> a :: b)
       }
   }
 }

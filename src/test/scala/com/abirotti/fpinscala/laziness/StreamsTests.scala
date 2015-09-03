@@ -35,6 +35,10 @@ class StreamsTests extends FunSuite with ShouldMatchers{
     nineNumbers.takeWhile(_ < 6).toList should be(List(1,2,3,4,5))
   }
 
+  test("takeWhile(p) should return empty list if first item doesn't match") {
+    nineNumbers.takeWhile(_ % 2 == 0).toList should be(List.empty)
+  }
+
   test("exists should return true if at least an item satisfied the predicate") {
     nineNumbers.exists(_ == 2) should be(true)
   }
@@ -49,5 +53,21 @@ class StreamsTests extends FunSuite with ShouldMatchers{
 
   test("forAll should return false if not all items satisfied the predicate") {
     nineNumbers.forAll(_ < 8) should be(false)
+  }
+
+  test("takeWhileByFoldRight(p) should take items from the stream as long as p(item) is true") {
+    nineNumbers.takeWhileByFoldRight(_ < 6).toList should be(List(1,2,3,4,5))
+  }
+
+  test("takeWhileByFoldRight(p) should return empty list if first item doesn't match") {
+    nineNumbers.takeWhileByFoldRight(_ % 2 == 0).toList should be(List.empty)
+  }
+
+  test("headOption of a non-empty stream is something") {
+    nineNumbers.headOption should be(Some(1))
+  }
+
+  test("headOption of an empty stream is nothing") {
+    emptyStream.headOption should be(None)
   }
 }
