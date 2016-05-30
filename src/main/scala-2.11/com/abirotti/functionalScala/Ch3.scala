@@ -1,5 +1,7 @@
 package com.abirotti.functionalScala
 
+import scala.annotation.tailrec
+
 object Ch3 {
 
   sealed trait List[+A]
@@ -83,9 +85,28 @@ object Ch3 {
       initInternal(l)
     }
 
-    def length[A](l: List[A]): Int = sys.error("todo")
+    def length[A](l: List[A]): Int = foldRight(l, 0)((_, acc) => acc + 1)
 
-    def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = sys.error("todo")
+    def foldLeft[A,B](l: List[A], z: B)(f: (B, A) => B): B = {
+      @tailrec
+      def foldLeftInt(list: List[A], acc: B): B = list match {
+        case Nil => acc
+        case Cons(x, xs) => foldLeftInt(xs, f(acc, x))
+      }
+      foldLeftInt(l, z)
+    }
+
+    def sum3(ns: List[Int]) =
+      foldLeft(ns, 0)((x,y) => x + y)
+
+    def product3(ns: List[Double]) =
+      foldLeft(ns, 1.0)(_ * _)
+
+    def length3[A](l: List[A]): Int =
+      foldLeft(l, 0)((acc, _) => acc + 1)
+
+    def reverse[A](l: List[A]): List[A] =
+      foldLeft(l, Nil: List[A])((list, element) => append(List(element), list))
 
     def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
   }
