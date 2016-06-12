@@ -69,4 +69,12 @@ class Ch3Test extends FunSuite with ShouldMatchers{
     val list2 = List(4,5,6)
     append_2(list1, list2) should be(append(list1, list2))
   }
+
+  test("concatenate should correctly concatenate all the lists"){
+    val l1 = List(1,2,3)
+    val l2 = List(11,22,33)
+    val l3 = List(111,222,333)
+
+    concatenate(List(l1, l2, l3)) should be(List(1,2,3,11,22,33,111,222,333))
+  }
 }

@@ -114,7 +114,8 @@ object Ch3 {
     def append_2[A](a1: List[A], a2: List[A]): List[A] =
       foldRight(a1, a2)((a, b) => Cons(a, b))
 
-    def concatenate[A](lists: List[List[A]]): List[A] = ???
+    def concatenate[A](lists: List[List[A]]): List[A] =
+      foldRight(lists, Nil: List[A])((a, b) => append(a, b))
 
     def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
   }
