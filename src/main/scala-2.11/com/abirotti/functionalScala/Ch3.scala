@@ -108,6 +108,14 @@ object Ch3 {
     def reverse[A](l: List[A]): List[A] =
       foldLeft(l, Nil: List[A])((list, element) => append(List(element), list))
 
+    def foldRightByFoldLeft[A,B](as: List[A], z: B)(f: (A, B) => B): B =
+      foldLeft(reverse(as), z)((b, a) => f(a, b))
+
+    def append_2[A](a1: List[A], a2: List[A]): List[A] =
+      foldRight(a1, a2)((a, b) => Cons(a, b))
+
+    def concatenate[A](lists: List[List[A]]): List[A] = ???
+
     def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
   }
 }

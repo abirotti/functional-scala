@@ -6,13 +6,13 @@ import org.scalatest.{FunSuite, ShouldMatchers}
 
 class Ch3Test extends FunSuite with ShouldMatchers{
 
-  test("testDrop") {
+  test("drop should drop the given number of elements from the head of the list") {
     drop(List(1,2,3), 0) should be (List(1,2,3))
     drop(List(1,2,3), 1) should be (List(2,3))
     drop(List(1,2,3), 2) should be (List(3))
   }
 
-  test("testTail") {
+  test("tail should correctly return the tail of the list") {
     tail(List(1,2,3)) should be (List(2,3))
     val exceptionOnEmptyList = intercept[UnsupportedOperationException] {
       tail(List())
@@ -20,12 +20,12 @@ class Ch3Test extends FunSuite with ShouldMatchers{
     exceptionOnEmptyList.getMessage should be("cannot perform tail on empty list")
   }
 
-  test("dropWhile") {
+  test("dropWhile should drop elements at the head of the list as long as the predicate holds for them") {
     dropWhile(List(1,2,3,4,5,6,7)) (a => a < 4) should be(List(4,5,6,7))
     dropWhile(List(1,2,3,4,5,6,7)) (a => a > 20) should be(List(1,2,3,4,5,6,7))
   }
 
-  test("init") {
+  test("init should return all but the last element of the list") {
     init(List()) should be (List())
     init(List(1,2,3,4,5,6,7)) should be (List(1,2,3,4,5,6))
   }
@@ -40,28 +40,33 @@ class Ch3Test extends FunSuite with ShouldMatchers{
     foldLeft(List(1,2,3,4), 0)((x,y) => x + y) should be(10)
   }
 
-  test("sum3") {
+  test("sum by foldLeft should correctly sum the elements in a list") {
     sum3(List(1,2,3,4)) should be (10)
     sum3(List(0)) should be (0)
     sum3(Nil: List[Int]) should be (0)
   }
 
-  test("product3") {
+  test("product by foldLeft should correctly calculate the product of the list's elements") {
     product3(List(1,2,3,4)) should be (24)
     product3(List(0)) should be (0)
     product3(Nil: List[Double]) should be (1)
   }
 
-  test("length3") {
+  test("length by foldLeft should return the size of the list") {
     length3(List(1,2,3,4)) should be (4)
     length3(List(0)) should be (1)
     length3(Nil: List[Double]) should be (0)
   }
 
-  test("reverse") {
+  test("reverse by foldLeft should correctly reverse the list") {
     reverse(List()) should be (List())
     reverse(List(1)) should be (List(1))
     reverse(List(0,1,2,3,4)) should be (List(4,3,2,1,0))
   }
 
+  test("append_2 should work as append") {
+    val list1 = List(1,2,3)
+    val list2 = List(4,5,6)
+    append_2(list1, list2) should be(append(list1, list2))
+  }
 }
