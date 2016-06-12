@@ -93,4 +93,12 @@ class Ch3Test extends FunSuite with ShouldMatchers{
   test("map with toString should turn every element of the list to a string") {
     map(List(1,2,3,4))(_.toString) should be(List("1", "2", "3", "4"))
   }
+
+  test("filter should retain the elements of the list for which the predicate holds") {
+    filter(List(1,2,3,4,5,6))(_ % 2  == 0) should be(List(2,4,6))
+  }
+
+  test("flatMap should apply the given function and then flatten the result") {
+    flatMap(List(1,2,3))(i => List(i,i)) should be(List(1,1,2,2,3,3))
+  }
 }

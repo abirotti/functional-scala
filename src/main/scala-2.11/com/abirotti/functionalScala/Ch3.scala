@@ -112,10 +112,10 @@ object Ch3 {
       foldLeft(reverse(as), z)((b, a) => f(a, b))
 
     def append_2[A](a1: List[A], a2: List[A]): List[A] =
-      foldRight(a1, a2)((a, b) => Cons(a, b))
+      foldRight(a1, a2)(Cons(_,_))
 
     def concatenate[A](lists: List[List[A]]): List[A] =
-      foldRight(lists, Nil: List[A])((a, b) => append(a, b))
+      foldRight(lists, Nil: List[A])(append)
 
     def add1(list: List[Int]): List[Int] =
       foldRight(list, Nil: List[Int])((a, b) => Cons(a + 1, b))
@@ -125,5 +125,11 @@ object Ch3 {
 
     def map[A,B](l: List[A])(f: A => B): List[B] =
       foldRight(l, Nil: List[B])((a, b) => Cons(f(a), b))
+
+    def filter[A](as: List[A])(f: A => Boolean): List[A] =
+      foldRight(as, Nil: List[A])((a, b) => if (f(a)) Cons(a, b) else b)
+
+    def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
+      concatenate(map(as)(f))
   }
 }
