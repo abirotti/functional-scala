@@ -70,11 +70,27 @@ class Ch3Test extends FunSuite with ShouldMatchers{
     append_2(list1, list2) should be(append(list1, list2))
   }
 
-  test("concatenate should correctly concatenate all the lists"){
+  test("concatenate should correctly concatenate all the lists") {
     val l1 = List(1,2,3)
     val l2 = List(11,22,33)
     val l3 = List(111,222,333)
 
     concatenate(List(l1, l2, l3)) should be(List(1,2,3,11,22,33,111,222,333))
+  }
+
+  test("add1 should add 1 to every element of the list") {
+    add1(List(1,2,3,4,5,6,7)) should be(List(2,3,4,5,6,7,8))
+  }
+
+  test("asString should turn every element of the list to a string") {
+    asString(List(1,2,3,4)) should be(List("1", "2", "3", "4"))
+  }
+
+  test("map with + 1 should add 1 to every element of the list") {
+    map(List(1,2,3,4,5,6,7))(_ + 1) should be(List(2,3,4,5,6,7,8))
+  }
+
+  test("map with toString should turn every element of the list to a string") {
+    map(List(1,2,3,4))(_.toString) should be(List("1", "2", "3", "4"))
   }
 }

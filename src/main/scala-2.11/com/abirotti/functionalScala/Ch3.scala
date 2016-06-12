@@ -117,6 +117,13 @@ object Ch3 {
     def concatenate[A](lists: List[List[A]]): List[A] =
       foldRight(lists, Nil: List[A])((a, b) => append(a, b))
 
-    def map[A,B](l: List[A])(f: A => B): List[B] = sys.error("todo")
+    def add1(list: List[Int]): List[Int] =
+      foldRight(list, Nil: List[Int])((a, b) => Cons(a + 1, b))
+
+    def asString[A](list: List[A]): List[String] =
+      foldRight(list, Nil: List[String])((a, b) => Cons(a.toString, b))
+
+    def map[A,B](l: List[A])(f: A => B): List[B] =
+      foldRight(l, Nil: List[B])((a, b) => Cons(f(a), b))
   }
 }
