@@ -101,4 +101,12 @@ class Ch3Test extends FunSuite with ShouldMatchers{
   test("flatMap should apply the given function and then flatten the result") {
     flatMap(List(1,2,3))(i => List(i,i)) should be(List(1,1,2,2,3,3))
   }
+
+  test("filter1 should retain the elements of the list for which the predicate holds") {
+    filter1(List(1,2,3,4,5,6))(_ % 2 == 0) should be(List(2,4,6))
+  }
+
+  test("zip") {
+    add(List(1,2,3,4), List(4,3,2,1)) should be(List(5,5,5,5))
+  }
 }

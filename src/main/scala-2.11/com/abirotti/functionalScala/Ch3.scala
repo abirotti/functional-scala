@@ -131,5 +131,10 @@ object Ch3 {
 
     def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] =
       concatenate(map(as)(f))
+
+    def filter1[A](as: List[A])(f: A => Boolean): List[A] =
+      flatMap(as)(x => if (f(x)) List(x) else Nil)
+
+    def add(l1: List[Int], l2: List[Int]): List[Int] = ???
   }
 }
