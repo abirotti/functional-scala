@@ -2,7 +2,7 @@ package com.abirotti.functionalScala
 
 import scala.annotation.tailrec
 
-object Ch3 {
+object Lists {
 
   sealed trait List[+A]
   case object Nil extends List[Nothing]

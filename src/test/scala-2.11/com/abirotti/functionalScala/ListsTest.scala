@@ -1,10 +1,10 @@
 package com.abirotti.functionalScala
 
-import com.abirotti.functionalScala.Ch3.{List, Nil}
-import com.abirotti.functionalScala.Ch3.List._
+import com.abirotti.functionalScala.Lists.{List, Nil}
+import com.abirotti.functionalScala.Lists.List._
 import org.scalatest.{FunSuite, ShouldMatchers}
 
-class Ch3Test extends FunSuite with ShouldMatchers{
+class ListsTest extends FunSuite with ShouldMatchers{
 
   test("drop should drop the given number of elements from the head of the list") {
     drop(List(1,2,3), 0) should be (List(1,2,3))
