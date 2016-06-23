@@ -106,7 +106,15 @@ class Ch3Test extends FunSuite with ShouldMatchers{
     filter1(List(1,2,3,4,5,6))(_ % 2 == 0) should be(List(2,4,6))
   }
 
-  test("zip") {
-    add(List(1,2,3,4), List(4,3,2,1)) should be(List(5,5,5,5))
+  test("add should add the corresponding items of the two lists into another list") {
+    add(List(1,2,3,4), List(4,3,2,1,0)) should be(List(5,5,5,5))
+  }
+
+  test("zipWith + should behave like add") {
+    zipWith(List(1,2,3,4), List(4,3,2,1,0))((a,b)=>a+b) should be(List(5,5,5,5))
+  }
+
+  test("zipWith should apply the given function to the corresponding items of the two lists to create a new list"){
+    zipWith(List(1,2,3,4), List(4,3,2,1,0))( (a,b)=>a.toString + b.toString ) should be(List("14", "23", "32", "41"))
   }
 }

@@ -135,6 +135,16 @@ object Ch3 {
     def filter1[A](as: List[A])(f: A => Boolean): List[A] =
       flatMap(as)(x => if (f(x)) List(x) else Nil)
 
-    def add(l1: List[Int], l2: List[Int]): List[Int] = ???
+    def add(l1: List[Int], l2: List[Int]): List[Int] = (l1, l2) match {
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (Cons(a, as), Cons(b, bs)) => Cons(a+b, add(as, bs))
+    }
+
+    def zipWith[A,B,C](a: List[A], b: List[B])(f: (A,B)=>C): List[C] = (a, b) match {
+      case (Nil, _) => Nil
+      case (_, Nil) => Nil
+      case (Cons(a, as), Cons(b, bs)) => Cons(f(a,b), zipWith(as, bs)(f))
+    }
   }
 }
