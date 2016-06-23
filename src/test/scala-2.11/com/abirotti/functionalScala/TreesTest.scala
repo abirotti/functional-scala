@@ -35,4 +35,29 @@ class TreesTest extends FunSuite with ShouldMatchers{
     val someTreeOfTwos: Branch[Int] = Branch(Leaf(2), Branch(Branch(Leaf(2), Leaf(2)), Leaf(2)))
     map(someTreeOfOnes)(_+1) should be(someTreeOfTwos)
   }
+
+  test("sizeByFold is 1 on Leaf") {
+    sizeByFold(Leaf("a")) should be(1)
+  }
+
+  test("sizeByFold of a deeper tree"){
+    sizeByFold(Branch(Branch(Leaf(1), Leaf(2)), Leaf("a"))) should be(3)
+  }
+
+  test("maximumByFold of Leaf(v) is v"){
+    maximumByFold(Leaf(1)) should be(1)
+  }
+
+  test("maximumByFold of a more complex tree"){
+    maximumByFold(Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(1), Leaf(5)))) should be(5)
+  }
+
+  test("depthByFold of Leaf is 1"){
+    depthByFold(Leaf(1)) should be(1)
+  }
+
+  test("depthByFold of a deeper Tree"){
+    val someTree: Branch[Int] = Branch(Leaf(1), Branch(Branch(Leaf(1), Leaf(1)), Leaf(1)))
+    depthByFold(someTree) should be(4)
+  }
 }
