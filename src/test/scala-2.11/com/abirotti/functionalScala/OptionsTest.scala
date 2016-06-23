@@ -19,4 +19,9 @@ class OptionsTest extends FunSuite with ShouldMatchers{
   test("Some(1).getOrElse(Some(2)) should be Some(1)"){
     Some(1).getOrElse(2) should be (1)
   }
+
+  test("getOr"){1 should be(2)}
+  test("filter"){1 should be(2)}
+  test("flatMap"){1 should be(2)}
+  test("variance"){1 should be(2)}
 }
