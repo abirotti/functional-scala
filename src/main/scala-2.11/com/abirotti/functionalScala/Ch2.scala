@@ -18,7 +18,7 @@ object Ch2 {
     @tailrec
     def isSortedInternal(a: List[A]): Boolean = a match {
       case surelyTrue if a.length < 2 => true
-      case anA :: as => if (ordered(anA, as.head)) isSortedInternal(as) else false
+      case anA :: aList => if (ordered(anA, aList.head)) isSortedInternal(aList) else false
     }
     isSortedInternal(as.toList)
   }
