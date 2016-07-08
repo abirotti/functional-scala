@@ -1,30 +1,58 @@
 package com.abirotti.functionalScala
 
-sealed trait Optionz[+A] {
+import scala.{Option => O}
 
-  def map[B](f: A => B): Optionz[B] = this match {
+sealed trait Option[+A] {
+
+  def map[B](f: A => B): Option[B] = this match {
     case None => None
     case Some(v) => Some(f(v))
   }
 
-  def flatMap[B](f: A => Optionz[B]): Optionz[B] = map(f) getOrElse None
+  def flatMap[B](f: A => Option[B]): Option[B] = map(f) getOrElse None
 
   def getOrElse[B >: A](default: => B): B = this match {
     case None => default
     case Some(v) => v
   }
 
-  def orElse1[B >: A](ob: => Optionz[B]): Optionz[B] = this match {
+  def orElse1[B >: A](ob: => Option[B]): Option[B] = this match {
     case None => ob
     case some @ Some(v) => some
   }
 
-  def orElse[B >: A](ob: => Optionz[B]): Optionz[B] = this map (Some(_)) getOrElse ob
+  def orElse[B >: A](ob: => Option[B]): Option[B] = this map (Some(_)) getOrElse ob
 
-  def filter(f: A => Boolean): Optionz[A] = this flatMap(x => if (f(x)) Some(x) else None)
+  def filter(f: A => Boolean): Option[A] = this flatMap(x => if (f(x)) Some(x) else None)
 
-  def variance(xs: Seq[Double]): Optionz[Double] = ???
+  def variance(xs: Seq[Double]): Option[Double] = ???
+
+  def lift[A,B](f: A => B): Option[A] => Option[B] = _ map f
+
 
 }
-case class Some[+A](get: A) extends Optionz[A]
-case object None extends Optionz[Nothing]
+
+object Option{
+  def map2[A,B,C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] =
+    a flatMap (aa => b map (bb => f(aa, bb)))
+
+  def sequence[A](a: List[Option[A]]): Option[List[A]] =
+    a match {
+      case Nil => Some(Nil)
+      case aa :: as => aa flatMap (aaa => sequence(as) map (aaa :: _))
+    }
+
+  def traverse[A, B](a: List[A])(f: A => Option[B]): Option[List[B]] = a match {
+    case Nil => Some(Nil)
+    case aa :: aas => map2(f(aa), traverse(aas)(f))(_ :: _)
+  }
+
+  def sequence2[A](a: List[Option[A]]): Option[List[A]] = traverse(a)(b=>b)
+
+  def Try[A](a: => A): Option[A] =
+    try Some(a)
+    catch { case e: Exception => None }
+}
+
+case class Some[+A](get: A) extends Option[A]
+case object None extends Option[Nothing]

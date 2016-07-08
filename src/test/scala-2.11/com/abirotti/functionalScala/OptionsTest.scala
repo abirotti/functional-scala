@@ -1,5 +1,6 @@
 package com.abirotti.functionalScala
 
+import com.abirotti.functionalScala.Option.{map2, sequence, traverse}
 import org.scalatest.{FunSuite, ShouldMatchers}
 
 class OptionsTest extends FunSuite with ShouldMatchers{
@@ -28,7 +29,7 @@ class OptionsTest extends FunSuite with ShouldMatchers{
     Some(1).orElse(Some(2)) should be(Some(1))
   }
 
-  test("filter on None should be None"){
+  test("filter on None should be None") {
     None.filter(_ == 2) should be(None)
   }
 
@@ -43,7 +44,31 @@ class OptionsTest extends FunSuite with ShouldMatchers{
     Some(2).flatMap(someIfEven) should be(Some(2))
   }
 
-  def someIfEven: (Int) => Optionz[Int] = v => if (v % 2 == 0) Some(v) else None
+  def someIfEven: (Int) => Option[Int] = v => if (v % 2 == 0) Some(v) else None
 
-  test("variance"){1 should be(2)}
+  ignore("variance"){1 should be(2)}
+
+  test("map2 should be None if either of the 2 parameters passed is None") {
+    map2(Some(1), None)((a, b) => Some(a + b)) should be(None)
+  }
+
+  test("map2 should be correctly apply the function f if both parameters contain something") {
+    map2(Some(1), Some(3))((a, b) => a + b) should be(Some(4))
+  }
+
+  test("sequence should be None if either of the elements of the list passed is None") {
+    sequence(List(Some(1), None)) should be(None)
+  }
+
+  test("sequence should wrap the list in an Option if all elements of the list contain something") {
+    sequence(List(Some(1), Some(4))) should be(Some(List(1, 4)))
+  }
+
+  test("traverse should be None if either of the elements of the list passed is None") {
+    traverse(List("1", "one"))(i => Option.Try(i.toInt)) should be(None)
+  }
+
+  test("traverse should execute the given function if all elements of the list contain something") {
+    traverse(List("1", "2"))(i => Option.Try(i.toInt)) should be(Some(List(1, 2)))
+  }
 }
