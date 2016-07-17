@@ -19,9 +19,11 @@ object Eithers {
       case Right(a) => f(a)
       case Left(a) => Left(a)
     }
+
+  def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C) =
+    this flatMap( tt => b map (bb => f(tt, bb)) )
   }
 
   case class Left[+E](value: E) extends Either[E, Nothing]
-
   case class Right[+A](value: A) extends Either[Nothing, A]
 }
