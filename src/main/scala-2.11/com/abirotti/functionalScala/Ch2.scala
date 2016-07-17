@@ -14,7 +14,7 @@ object Ch2 {
     fibInternal(0, 1, n)
   }
 
-  def isSorted[A](as: Array[A], ordered: (A,A) => Boolean): Boolean = {
+  def isSorted[A](as: Array[A], ordered: (A, A) => Boolean): Boolean = {
     @tailrec
     def isSortedInternal(a: List[A]): Boolean = a match {
       case surelyTrue if a.length < 2 => true
@@ -23,13 +23,12 @@ object Ch2 {
     isSortedInternal(as.toList)
   }
 
-  def curry[A,B,C](f: (A,B) => C): A => (B => C) =
+  def curry[A, B, C](f: (A, B) => C): A => (B => C) =
     (a: A) => f(a, _)
 
-  def uncurry[A,B,C](f: A => B => C): (A, B) => C =
+  def uncurry[A, B, C](f: A => B => C): (A, B) => C =
     (a: A, b: B) => f(a)(b)
 
-  def compose[A,B,C](f: B => C, g: A => B): A => C =
+  def compose[A, B, C](f: B => C, g: A => B): A => C =
     (a: A) => f(g(a))
-
 }

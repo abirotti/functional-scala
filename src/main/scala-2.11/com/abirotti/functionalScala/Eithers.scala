@@ -20,8 +20,8 @@ object Eithers {
       case Left(a) => Left(a)
     }
   }
+
   case class Left[+E](value: E) extends Either[E, Nothing]
+
   case class Right[+A](value: A) extends Either[Nothing, A]
-
-
 }
