@@ -1,4 +1,4 @@
-package com.abirotti.fpinscala.laziness
+package com.abirotti.functionalScala
 
 import Stream._
 sealed trait Stream[+A] {
