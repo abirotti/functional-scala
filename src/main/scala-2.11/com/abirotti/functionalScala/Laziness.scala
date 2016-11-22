@@ -1,7 +1,7 @@
 package com.abirotti.functionalScala
 
 import com.abirotti.functionalScala.MyStream.cons
-import scala.{Option => Op, None => No}
+import scala.{None => No, Option => Op}
 
 sealed trait MyStream[+A] {
 

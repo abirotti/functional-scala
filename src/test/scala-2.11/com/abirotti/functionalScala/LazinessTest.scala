@@ -1,12 +1,11 @@
-package com.abirotti.fpinscala.laziness
+package com.abirotti.functionalScala
 
-import com.abirotti.functionalScala.MyStream
 import org.scalatest.{FunSuite, ShouldMatchers}
 
 class LazinessTest extends FunSuite with ShouldMatchers{
 
-  val tenNumbers = MyStream[Int](1 to 10:_*)
-  val emptyStream = MyStream[Int]()
+  val tenNumbers: MyStream[Int] = MyStream[Int](1 to 10:_*)
+  val emptyStream: MyStream[Int] = MyStream[Int]()
 
   test("toList should return a list of the stream") {
     tenNumbers.toList should be((1 to 10).toList)

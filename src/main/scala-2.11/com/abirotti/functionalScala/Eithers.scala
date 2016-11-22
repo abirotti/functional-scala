@@ -20,7 +20,7 @@ object Eithers {
       case Left(a) => Left(a)
     }
 
-    def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C) =
+    def map2[EE >: E, B, C](b: Either[EE, B])(f: (A, B) => C): Either[EE, C] =
       this flatMap (tt => b map (bb => f(tt, bb)))
 
     def sequence[E, A](es: List[Either[E, A]]): Either[E, List[A]] = es match {
