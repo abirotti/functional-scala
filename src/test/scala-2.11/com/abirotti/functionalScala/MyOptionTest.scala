@@ -1,9 +1,9 @@
 package com.abirotti.functionalScala
 
-import com.abirotti.functionalScala.Option.{Try, map2, sequence, traverse}
+import com.abirotti.functionalScala.MyOption.{Try, map2, sequence, traverse}
 import org.scalatest.{FunSuite, ShouldMatchers}
 
-class OptionsTest extends FunSuite with ShouldMatchers {
+class MyOptionTest extends FunSuite with ShouldMatchers {
 
   test("None.map(_+1) should be None") {
     None.map(v => v.toString) should be(None)
@@ -44,7 +44,7 @@ class OptionsTest extends FunSuite with ShouldMatchers {
     Some(2).flatMap(someIfEven) should be(Some(2))
   }
 
-  def someIfEven: (Int) => Option[Int] = v => if (v % 2 == 0) Some(v) else None
+  def someIfEven: (Int) => MyOption[Int] = v => if (v % 2 == 0) Some(v) else None
 
   ignore("variance") {
     1 should be(2)

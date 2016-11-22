@@ -58,7 +58,7 @@ object Lists {
       case Cons(_, xs) => xs
     }
 
-    def tailOption[A](l: List[A]): Option[List[A]] = l match {
+    def tailOption[A](l: List[A]): MyOption[List[A]] = l match {
       case Nil => None
       case Cons(_, xs) => Some(xs)
     }
