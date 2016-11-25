@@ -1,6 +1,8 @@
 package com.abirotti.functionalScala
 
-import com.abirotti.functionalScala.MyStream.cons
+import com.abirotti.functionalScala.MyStream.{cons, empty}
+
+import scala.util.Try
 import scala.{None => No, Option => Op}
 
 sealed trait MyStream[+A] {
@@ -39,11 +41,23 @@ sealed trait MyStream[+A] {
   }
 
   def takeWhileByFoldRight(p: A => Boolean): MyStream[A] =
-    this.foldRight(MyStream.empty[A])((a, z) => if(p(a)) cons(a, z) else Empty)
+    this.foldRight(empty[A])((a, z) => if (p(a)) cons(a, z) else Empty)
 
-  def headOption: Option[A] = this.foldRight(Option.empty[A])((a, _) => Option.apply(a))
+  def headOption: MyOption[A] =
+    this.foldRight(None: MyOption[A])((a, _) => MyOption.Try(a))
+
+  def map[B](f: A => B): MyStream[B] =
+    foldRight(empty[B])((a, b) => cons(f(a), b))
+
+  def filter(f: A => Boolean): MyStream[A] =
+    foldRight(empty[A])((a, b) => if (f(a)) cons(a, b) else b)
+
+  def append[B>:A](s: => MyStream[B]): MyStream[B] =
+    foldRight(this)((s, t) => cons(s, t))
+
+  def flatMap[B](f: A => MyStream[B]): MyStream[B] =
+    foldRight(empty[B])((h, t) => f(h) append t)
 }
-
 case object Empty extends MyStream[Nothing]
 
 case class Cons[+A](h: () => A, t: () => MyStream[A]) extends MyStream[A]

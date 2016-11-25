@@ -1,9 +1,9 @@
 package com.abirotti.functionalScala
 
 import com.abirotti.functionalScala.MyOption.{Try, map2, sequence, traverse}
-import org.scalatest.{FunSuite, ShouldMatchers}
+import org.scalatest.{FunSuite, Matchers}
 
-class MyOptionTest extends FunSuite with ShouldMatchers {
+class MyOptionTest extends FunSuite with Matchers {
 
   test("None.map(_+1) should be None") {
     None.map(v => v.toString) should be(None)

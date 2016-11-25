@@ -2,9 +2,9 @@ package com.abirotti.functionalScala
 
 import com.abirotti.functionalScala.Lists.{List, Nil}
 import com.abirotti.functionalScala.Lists.List._
-import org.scalatest.{FunSuite, ShouldMatchers}
+import org.scalatest.{FunSuite, Matchers}
 
-class ListsTest extends FunSuite with ShouldMatchers {
+class ListsTest extends FunSuite with Matchers {
 
   test("drop should drop the given number of elements from the head of the list") {
     drop(List(1, 2, 3), 0) should be(List(1, 2, 3))

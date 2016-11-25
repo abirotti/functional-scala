@@ -1,8 +1,8 @@
 package com.abirotti.functionalScala
 
-import org.scalatest.{FunSuite, ShouldMatchers}
+import org.scalatest.{FunSuite, Matchers}
 
-class LazinessTest extends FunSuite with ShouldMatchers{
+class LazinessTest extends FunSuite with Matchers{
 
   val tenNumbers: MyStream[Int] = MyStream[Int](1 to 10:_*)
   val emptyStream: MyStream[Int] = MyStream[Int]()
@@ -66,4 +66,27 @@ class LazinessTest extends FunSuite with ShouldMatchers{
   test("headOption of tenNumbers is Some(1)") {
     tenNumbers.headOption should be(Some(1))
   }
+
+  test("map of empty Stream is empty"){
+    emptyStream.map(x=>x) should be(emptyStream)
+  }
+
+  test("map(_+1) of tenNumbers increases each by 1"){
+    tenNumbers.map(x=>x+1).toList should be(List[Int](2 to 11:_*))
+  }
+
+  test("filter of empty Stream is empty"){
+    emptyStream.filter(_%2==0) should be(emptyStream)
+  }
+
+  test("filter(isEven) of tenNumbers returns the even numbers"){
+    tenNumbers.filter(_%2==0).toList should be(List[Int](2,4,6,8,10))
+  }
+
+  test("append tenNumbers to empty stream returns tenNumbers"){}
+  test("append empty to tenNumbers stream returns tenNumbers"){}
+  test("append empty to empty stream returns empty"){}
+
+  test("flatMap should apply the given function and then flatten the result"){}
+
 }

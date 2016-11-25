@@ -1,9 +1,9 @@
 package com.abirotti.functionalScala
 
 import com.abirotti.functionalScala.Trees._
-import org.scalatest.{FunSuite, ShouldMatchers}
+import org.scalatest.{FunSuite, Matchers}
 
-class TreesTest extends FunSuite with ShouldMatchers {
+class TreesTest extends FunSuite with Matchers {
 
   test("size is 1 on Leaf") {
     Trees.size(Leaf("a")) should be(1)

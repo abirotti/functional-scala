@@ -1,9 +1,9 @@
 package com.abirotti.functionalScala
 
-import org.scalatest.{FunSuite, ShouldMatchers}
+import org.scalatest.{FunSuite, Matchers}
 import com.abirotti.functionalScala.Eithers._
 
-class EitherTests extends FunSuite with ShouldMatchers {
+class EitherTests extends FunSuite with Matchers {
 
   test("map doesn't apply on the Left") {
     Left(1) map (_ toString) should be(Left(1))

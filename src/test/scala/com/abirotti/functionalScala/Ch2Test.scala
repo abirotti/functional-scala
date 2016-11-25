@@ -1,9 +1,9 @@
 package com.abirotti.functionalScala
 
 import com.abirotti.functionalScala.Ch2._
-import org.scalatest.{FunSuite, ShouldMatchers}
+import org.scalatest.{FunSuite, Matchers}
 
-class Ch2Test extends FunSuite with ShouldMatchers {
+class Ch2Test extends FunSuite with Matchers {
 
   test("fib should correctly calculate the fibonacci number") {
     fib(1) should be(1)
