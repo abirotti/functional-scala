@@ -9,7 +9,7 @@ object Ch2 {
     def fibInternal(prevPrev: BigInt, prev: BigInt, n: Int): BigInt = n match {
       case 0 => prevPrev
       case 1 => prev
-      case x => fibInternal(prev, prev + prevPrev, n - 1)
+      case _ => fibInternal(prev, prev + prevPrev, n - 1)
     }
     fibInternal(0, 1, n)
   }
@@ -17,7 +17,7 @@ object Ch2 {
   def isSorted[A](as: Array[A], ordered: (A, A) => Boolean): Boolean = {
     @tailrec
     def isSortedInternal(a: List[A]): Boolean = a match {
-      case surelyTrue if a.length < 2 => true
+      case _ if a.length < 2 => true
       case anA :: aList => if (ordered(anA, aList.head)) isSortedInternal(aList) else false
     }
     isSortedInternal(as.toList)

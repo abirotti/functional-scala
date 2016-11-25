@@ -26,7 +26,7 @@ object Lists {
       if (as.isEmpty) Nil
       else Cons(as.head, apply(as.tail: _*))
 
-    val x = List(1, 2, 3, 4, 5) match {
+    val x: Int = List(1, 2, 3, 4, 5) match {
       case Cons(x, Cons(2, Cons(4, _))) => x
       case Nil => 42
       case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
@@ -46,10 +46,10 @@ object Lists {
         case Cons(x, xs) => f(x, foldRight(xs, z)(f))
       }
 
-    def sum2(ns: List[Int]) =
+    def sum2(ns: List[Int]): Int =
       foldRight(ns, 0)((x, y) => x + y)
 
-    def product2(ns: List[Double]) =
+    def product2(ns: List[Double]): Double =
       foldRight(ns, 1.0)(_ * _)
 
 
@@ -58,7 +58,7 @@ object Lists {
       case Cons(_, xs) => xs
     }
 
-    def tailOption[A](l: List[A]): Option[List[A]] = l match {
+    def tailOption[A](l: List[A]): MyOption[List[A]] = l match {
       case Nil => None
       case Cons(_, xs) => Some(xs)
     }
@@ -98,8 +98,8 @@ object Lists {
       foldLeftInt(l, z)
     }
 
-    def sum3(ns: List[Int]) = foldLeft(ns, 0)((x, y) => x + y)
-    def product3(ns: List[Double]) = foldLeft(ns, 1.0)(_ * _)
+    def sum3(ns: List[Int]): Int = foldLeft(ns, 0)((x, y) => x + y)
+    def product3(ns: List[Double]): Double = foldLeft(ns, 1.0)(_ * _)
     def length3[A](l: List[A]): Int = foldLeft(l, 0)((acc, _) => acc + 1)
 
     def reverse[A](l: List[A]): List[A] = foldLeft(l, Nil: List[A])((list, element) => append(List(element), list))
