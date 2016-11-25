@@ -53,7 +53,7 @@ sealed trait MyStream[+A] {
     foldRight(empty[A])((a, b) => if (f(a)) cons(a, b) else b)
 
   def append[B>:A](s: => MyStream[B]): MyStream[B] =
-    foldRight(this)((s, t) => cons(s, t))
+    foldRight(s)((h, t) => cons(h, t))
 
   def flatMap[B](f: A => MyStream[B]): MyStream[B] =
     foldRight(empty[B])((h, t) => f(h) append t)

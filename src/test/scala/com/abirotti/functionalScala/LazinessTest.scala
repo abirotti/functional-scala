@@ -83,10 +83,20 @@ class LazinessTest extends FunSuite with Matchers{
     tenNumbers.filter(_%2==0).toList should be(List[Int](2,4,6,8,10))
   }
 
-  test("append tenNumbers to empty stream returns tenNumbers"){}
-  test("append empty to tenNumbers stream returns tenNumbers"){}
-  test("append empty to empty stream returns empty"){}
+  test("append tenNumbers to empty stream returns tenNumbers"){
+    emptyStream.append(tenNumbers).toList should be(tenNumbers.toList)
+  }
 
-  test("flatMap should apply the given function and then flatten the result"){}
+  test("append empty to tenNumbers stream returns tenNumbers"){
+    tenNumbers.append(emptyStream).toList should be(tenNumbers.toList)
+  }
+
+  test("append empty to empty stream returns empty"){
+    emptyStream.append(emptyStream).toList should be(Nil)
+  }
+
+  test("flatMap should apply the given function and then flatten the result"){
+    tenNumbers.flatMap(a => MyStream(a)).toList should be(tenNumbers.toList)
+  }
 
 }
