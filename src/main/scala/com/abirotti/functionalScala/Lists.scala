@@ -13,13 +13,13 @@ object Lists {
   object List {
     def sum(ints: List[Int]): Int = ints match {
       case Nil => 0
-      case Cons(x, xs) => x + sum(xs)
+      case Cons(anX, xs) => anX + sum(xs)
     }
 
     def product(ds: List[Double]): Double = ds match {
       case Nil => 1.0
       case Cons(0.0, _) => 0.0
-      case Cons(x, xs) => x * product(xs)
+      case Cons(anX, xs) => anX * product(xs)
     }
 
     def apply[A](as: A*): List[A] =
@@ -27,9 +27,9 @@ object Lists {
       else Cons(as.head, apply(as.tail: _*))
 
     val x: Int = List(1, 2, 3, 4, 5) match {
-      case Cons(x, Cons(2, Cons(4, _))) => x
+      case Cons(anX, Cons(2, Cons(4, _))) => anX
       case Nil => 42
-      case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
+      case Cons(anX, Cons(y, Cons(3, Cons(4, _)))) => anX + y
       case Cons(h, t) => h + sum(t)
       case _ => 101
     }
@@ -43,7 +43,7 @@ object Lists {
     def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
       as match {
         case Nil => z
-        case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+        case Cons(anX, xs) => f(anX, foldRight(xs, z)(f))
       }
 
     def sum2(ns: List[Int]): Int =
@@ -79,9 +79,10 @@ object Lists {
     }
 
     def init[A](l: List[A]): List[A] = {
+      @tailrec
       def initInternal(list: List[A], acc: List[A] = Nil): List[A] = list match {
         case Nil => Nil
-        case init@Cons(a, Nil) => acc
+        case Cons(_, Nil) => acc
         case Cons(a, as) => initInternal(as, append(acc, List(a)))
       }
       initInternal(l)
@@ -93,7 +94,7 @@ object Lists {
       @tailrec
       def foldLeftInt(list: List[A], acc: B): B = list match {
         case Nil => acc
-        case Cons(x, xs) => foldLeftInt(xs, f(acc, x))
+        case Cons(anX, xs) => foldLeftInt(xs, f(acc, anX))
       }
       foldLeftInt(l, z)
     }
@@ -131,7 +132,7 @@ object Lists {
     def zipWith[A, B, C](a: List[A], b: List[B])(f: (A, B) => C): List[C] = (a, b) match {
       case (Nil, _) => Nil
       case (_, Nil) => Nil
-      case (Cons(a, as), Cons(b, bs)) => Cons(f(a, b), zipWith(as, bs)(f))
+      case (Cons(anX, as), Cons(aB, bs)) => Cons(f(anX, aB), zipWith(as, bs)(f))
     }
   }
 }

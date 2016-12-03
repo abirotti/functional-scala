@@ -3,6 +3,8 @@ package com.abirotti.functionalScala
 import org.scalatest.{FunSuite, Matchers}
 import com.abirotti.functionalScala.Eithers._
 
+import scala.language.postfixOps
+
 class EitherTests extends FunSuite with Matchers {
 
   test("map doesn't apply on the Left") {
@@ -14,11 +16,11 @@ class EitherTests extends FunSuite with Matchers {
   }
 
   test("orElse on Right returns self") {
-    Right(1) orElse (Left(1)) should be(Right(1))
+    Right(1) orElse Left(1) should be(Right(1))
   }
 
   test("orElse on Left returns other") {
-    Left(1) orElse (Left(2)) should be(Left(2))
+    Left(1) orElse Left(2) should be(Left(2))
   }
 
   test("flatMap on Right applies the function") {

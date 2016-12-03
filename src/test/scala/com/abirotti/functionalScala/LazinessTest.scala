@@ -1,5 +1,6 @@
 package com.abirotti.functionalScala
 
+import com.abirotti.functionalScala.MyStream._
 import org.scalatest.{FunSuite, Matchers}
 
 class LazinessTest extends FunSuite with Matchers{
@@ -99,4 +100,27 @@ class LazinessTest extends FunSuite with Matchers{
     tenNumbers.flatMap(a => MyStream(a)).toList should be(tenNumbers.toList)
   }
 
+  test("constant returns an infinite stream with given value") {
+    constant(3).take(3).toList should be(List(3,3,3))
+  }
+
+  test("constant2 returns an infinite stream with given value") {
+    constant2(3).take(3).toList should be(List(3,3,3))
+  }
+
+  test("from returns an infinite stream of increasing integers starting from the given value") {
+    from(1).take(4).toList should be(List(1,2,3,4))
+  }
+
+  test("fib should create the fibonacci sequence") {
+    fibs.take(7).toList should be(List(0,1,1,2,3,5,8))
+  }
+
+  test("fibs2 should create the fibonacci sequence") {
+    fibs2.take(7).toList should be(List(0,1,1,2,3,5,8))
+  }
+
+  test("ones2 should create a sequence of ones"){
+    ones2.take(7).toList should be(List(1,1,1,1,1,1,1))
+  }
 }

@@ -27,7 +27,5 @@ class Ch2Test extends FunSuite with Matchers {
     isSorted(Array(1, 2, 3, 4, 5, 6).reverse, (a1: Int, a2: Int) => a1 <= a2) should be(false)
   }
 
-  private def alwaysTrue(a1: Int = 0, a2: Int = 0) = true
   private def alwaysFalse(a1: Int = 0, a2: Int = 0) = false
-  private def sorted(a1: Int, a2: Int): Boolean = a1 <= a2
 }
