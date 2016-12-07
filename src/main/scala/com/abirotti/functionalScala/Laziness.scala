@@ -1,6 +1,6 @@
 package com.abirotti.functionalScala
 
-import com.abirotti.functionalScala.MyStream.{cons, empty}
+import com.abirotti.functionalScala.MyStream.{cons, empty, unfold}
 
 import scala.{None => No, Option => Op, Some => So}
 
@@ -57,6 +57,29 @@ sealed trait MyStream[+A] {
   def flatMap[B](f: A => MyStream[B]): MyStream[B] =
     foldRight(empty[B])((h, t) => f(h) append t)
 
+  def map2[B](f: A => B): MyStream[B] =
+    unfold(this){
+      case Cons(h, t) => So((f(h()), t()))
+      case _ => No
+    }
+
+  def take2(i: Int): MyStream[A] =
+    unfold((this, i)){
+      case (Cons(h, t), n) if n > 1 => Op( h(), (t(), n - 1))
+      case (Cons(h, _), 1) => Op(h(), (empty, 0))
+      case _ => No
+    }
+
+  def takeWhile2(p: A => Boolean): MyStream[A] =
+    unfold(this){
+      case (Cons(h, t)) if p(h()) => So(h(), t())
+      case _ => No
+    }
+
+//  def zipWith[B, C](b: MyStream[B])(f: (A, B) => C): MyStream[C] =
+//    unfold(this, b){
+//      case (Cons(h1, t1), Cons(h2, t2)) =>
+//    }
 }
 case object Empty extends MyStream[Nothing]
 

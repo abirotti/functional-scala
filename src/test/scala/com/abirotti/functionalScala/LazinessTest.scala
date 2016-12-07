@@ -123,4 +123,40 @@ class LazinessTest extends FunSuite with Matchers{
   test("ones2 should create a sequence of ones"){
     ones2.take(7).toList should be(List(1,1,1,1,1,1,1))
   }
+
+  test("map2 of empty Stream is empty"){
+    emptyStream.map2(x=>x) should be(emptyStream)
+  }
+
+  test("map2(_+1) of tenNumbers increases each by 1"){
+    tenNumbers.map2(x=>x+1).toList should be(List[Int](2 to 11:_*))
+  }
+
+  test("take2(n) takes the first n elements of the stream") {
+    tenNumbers.take2(3).toList should be((1 to 3).toList)
+  }
+
+  test("take2(n) on an empty stream returns the stream") {
+    emptyStream.take2(3).toList should be(Nil)
+  }
+
+  test("takeWhile2(isLessThan5) takes the first 4 elements of the stream") {
+    tenNumbers.takeWhile2(_<5).toList should be((1 to 4).toList)
+  }
+
+  test("takeWhile2(isLessThan5) on an empty stream returns the stream") {
+    emptyStream.takeWhile2(_<5).toList should be(Nil)
+  }
+
+  test("zipWith + should behave like add") {
+  }
+
+  test("zipWith on empty stream should return empty stream") {
+  }
+
+  test("zipWith when passing empty stream should return empty stream") {
+  }
+
+  test("zipWith should apply the given function to the corresponding items of the two streams to create a new stream") {
+  }
 }
