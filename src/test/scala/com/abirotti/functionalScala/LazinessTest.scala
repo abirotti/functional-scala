@@ -3,6 +3,8 @@ package com.abirotti.functionalScala
 import com.abirotti.functionalScala.MyStream._
 import org.scalatest.{FunSuite, Matchers}
 
+import scala.{None => No, Option => Op, Some => So}
+
 class LazinessTest extends FunSuite with Matchers{
 
   val tenNumbers: MyStream[Int] = MyStream[Int](1 to 10:_*)
@@ -149,14 +151,24 @@ class LazinessTest extends FunSuite with Matchers{
   }
 
   test("zipWith + should behave like add") {
+    tenNumbers.zipWith(tenNumbers)(_+_).toList should be (List(2,4,6,8,10,12,14,16,18,20))
   }
 
   test("zipWith on empty stream should return empty stream") {
+    emptyStream.zipWith(tenNumbers)(_+_).toList should be (Nil)
   }
 
   test("zipWith when passing empty stream should return empty stream") {
+    tenNumbers.zipWith(emptyStream)(_+_).toList should be (Nil)
   }
 
   test("zipWith should apply the given function to the corresponding items of the two streams to create a new stream") {
+    tenNumbers.zipWith(tenNumbers)(_==_).toList should be (List.fill(10)(true))
+  }
+
+  test("zipAll should zip the two streams together"){
+    emptyStream.zipAll(tenNumbers).toList should be(
+      List((No, So(1)),(No, So(2)),(No, So(3)),(No, So(4)),(No, So(5)),(No, So(6)),(No, So(7)),(No, So(8)),(No, So(9)),(No, So(10)))
+    )
   }
 }
