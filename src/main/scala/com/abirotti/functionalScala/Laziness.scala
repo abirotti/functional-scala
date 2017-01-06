@@ -86,9 +86,21 @@ sealed trait MyStream[+A] {
     unfold(this, s2) {
       case (Cons(h1, t1), Cons(h2, t2)) => So( (So(h1()), So(h2())), (t1(), t2()) )
       case (Empty, Cons(h2, t2)) => So( (Op.empty[A], So(h2())), (empty, t2()) )
-      case (Cons(h1, t1), Empty) => So( (So(h1()), Op.empty[B]), (t1(), Empty) )
+      case (Cons(h1, t1), Empty) => So( (So(h1()), Op.empty[B]), (t1(), empty) )
       case _ => No
     }
+
+  def startsWith[B](prefix: MyStream[B]): Boolean = {
+     zipAll(prefix).takeWhile(_._2.isDefined).forAll {
+       case (h1, h2) => h1 == h2
+     }
+  }
+
+  def tails: MyStream[MyStream[A]] =
+    unfold(this) {
+      case Empty => No
+      case stream @ Cons(h, t) => So(stream, t())
+    } append Empty
 }
 
 case object Empty extends MyStream[Nothing]

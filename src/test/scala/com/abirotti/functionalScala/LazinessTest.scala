@@ -8,6 +8,7 @@ import scala.{None => No, Option => Op, Some => So}
 class LazinessTest extends FunSuite with Matchers{
 
   val tenNumbers: MyStream[Int] = MyStream[Int](1 to 10:_*)
+  val threeNumbers: MyStream[Int] = MyStream[Int](1 to 3:_*)
   val emptyStream: MyStream[Int] = MyStream[Int]()
 
   test("toList should return a list of the stream") {
@@ -170,5 +171,21 @@ class LazinessTest extends FunSuite with Matchers{
     emptyStream.zipAll(tenNumbers).toList should be(
       List((No, So(1)),(No, So(2)),(No, So(3)),(No, So(4)),(No, So(5)),(No, So(6)),(No, So(7)),(No, So(8)),(No, So(9)),(No, So(10)))
     )
+  }
+
+  test("a stream is prefixed by an empty stream"){
+    tenNumbers.startsWith(emptyStream) should be(true)
+  }
+
+  test("a stream is prefixed by itself"){
+    tenNumbers.startsWith(tenNumbers) should be(true)
+  }
+
+  test("an empty stream is not prefixed by any stream"){
+    emptyStream.startsWith(tenNumbers) should be(false)
+  }
+
+  test("a shorter stream cannot be prefixed by a longer one"){
+    threeNumbers.startsWith(tenNumbers) should be(false)
   }
 }
